@@ -31,6 +31,8 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
 
   bool _showBackMenu = false;
 
+  Object _groupId = "1";
+
   final WeChatMessageListBottomMenuController _bottomMenuController =
       WeChatMessageListBottomMenuController(initOpacity: 0);
 
@@ -69,34 +71,33 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
         ),
 
         GetBuilder<WechatMessageListViewModel>(
-          assignId: true,
-          builder: (vm) {
-            return NotificationListener<DraggableScrollableNotification>(
-              onNotification: (DraggableScrollableNotification notification) {
-                _bottomMenuController.opacity = 1 - notification.extent;
-                if (notification.extent < 0.1) {
-                  hiddenBottomBar(true);
-                } else {
-                  hiddenBottomBar(false);
-                }
-                return true;
-              },
-              child: WechatDraggableScrollableSheet(
-                animationController: _animationController,
-                expand: true,
-                minChildSize: 0.0,
-                maxChildSize: 1,
-                initialChildSize: 1,
-                builder: (
-                  BuildContext context,
-                  ScrollController scrollController,
-                ) {
-                  return _topWidget(scrollController);
+            assignId: true,
+            builder: (vm) {
+              return NotificationListener<DraggableScrollableNotification>(
+                onNotification: (DraggableScrollableNotification notification) {
+                  _bottomMenuController.opacity = 1 - notification.extent;
+                  if (notification.extent < 0.1) {
+                    hiddenBottomBar(true);
+                  } else {
+                    hiddenBottomBar(false);
+                  }
+                  return true;
                 },
-              ),
-            );
-          }
-        ),
+                child: WechatDraggableScrollableSheet(
+                  animationController: _animationController,
+                  expand: true,
+                  minChildSize: 0.0,
+                  maxChildSize: 1,
+                  initialChildSize: 1,
+                  builder: (
+                    BuildContext context,
+                    ScrollController scrollController,
+                  ) {
+                    return _topWidget(scrollController);
+                  },
+                ),
+              );
+            }),
 
         ///上层的列表
       ],
@@ -125,14 +126,16 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
           ),
         ],
       ),
-      body: ListView.builder(
-        physics: const CustomBouncingScrollPhysics(),
-        controller: scrollController,
-        itemBuilder: (BuildContext context, int index) {
-          Map item = model.data[index];
-          return _buildListItem(model, item);
-        },
-        itemCount: model.data.length,
+      body: SlidableAutoCloseBehavior(
+        child: ListView.builder(
+          physics: const CustomBouncingScrollPhysics(),
+          controller: scrollController,
+          itemBuilder: (BuildContext context, int index) {
+            Map item = model.data[index];
+            return _buildListItem(model, item);
+          },
+          itemCount: model.data.length,
+        ),
       ),
     );
   }
@@ -151,6 +154,8 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
   ///cell布局
   Widget _buildListItem(WechatMessageListViewModel model, Map item) {
     return Slidable(
+      key: ObjectKey(item['msg_name']),
+      groupTag: _groupId,
       // The start action pane is the one at the left or the top side.
       startActionPane: ActionPane(
         // A motion is a widget used to control how the pane animates.
@@ -228,6 +233,8 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
   ///cell布局
   Widget _buildListItem2(WechatMessageListViewModel model, Map item) {
     return Slidable(
+      key: ObjectKey(item['msg_name']),
+      groupTag: _groupId,
       startActionPane: ActionPane(
         // A motion is a widget used to control how the pane animates.
         motion: const ScrollMotion(),
