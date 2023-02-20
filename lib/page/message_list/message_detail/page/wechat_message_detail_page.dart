@@ -6,6 +6,7 @@ import '../widget/wechat_message_list_widget.dart';
 
 /// @author jd
 
+@Deprecated("请使用DoctorChatPage")
 class WechatMessageDetailPage extends StatefulWidget {
   @override
   _WechatMessageDetailPageState createState() =>
