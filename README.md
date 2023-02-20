@@ -62,4 +62,14 @@ flutter version: >= 3.0.5
   #bugly
   flutter_bugly: ^0.3.0
 
+  scrollview_observer: ^1.9.2
+  #和scrollview_observer组合使用
+  custom_refresh_indicator: ^2.0.1
+  #websocket
+  web_socket_channel: ^2.3.0
+  #聊天图片
+  wechat_assets_picker: ^8.3.2
+  # 图片预览
+  photo_view: ^0.14.0
+
 ```
