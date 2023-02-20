@@ -12,14 +12,14 @@ import 'chat_unread_tip_view.dart';
 
 /// @author jd
 
-class DoctorMessageListWidget extends StatefulWidget {
-  const DoctorMessageListWidget({super.key, required this.scrollController});
+class ChatMessageListWidget extends StatefulWidget {
+  const ChatMessageListWidget({super.key, required this.scrollController});
   final ScrollController scrollController;
   @override
-  State createState() => _DoctorMessageListWidgetState();
+  State createState() => _ChatMessageListWidgetState();
 }
 
-class _DoctorMessageListWidgetState extends State<DoctorMessageListWidget> {
+class _ChatMessageListWidgetState extends State<ChatMessageListWidget> {
   final ChatController _controller = Get.find<ChatController>();
   @override
   void initState() {

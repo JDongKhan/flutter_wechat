@@ -3,21 +3,21 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../controller/chat_controller.dart';
-import '../widget/doctor_input_message_widget.dart';
-import '../widget/doctor_message_list_widget.dart';
+import '../widget/chat_input_message_widget.dart';
+import '../widget/chat_message_list_widget.dart';
 
 /// @author jd
 
-class DoctorChatPage extends StatefulWidget {
-  const DoctorChatPage({super.key});
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
 
   @override
-  State createState() => _DoctorChatPageState();
+  State createState() => _ChatPageState();
 }
 
-class _DoctorChatPageState extends State<DoctorChatPage> {
-  final DoctorInputMessageController _inputMessageController =
-      DoctorInputMessageController();
+class _ChatPageState extends State<ChatPage> {
+  final ChatInputMessageController _inputMessageController =
+      ChatInputMessageController();
 
   final ScrollController _scrollController = ScrollController();
   late ChatController _controller;
@@ -91,13 +91,13 @@ class _DoctorChatPageState extends State<DoctorChatPage> {
                 onTap: () {
                   _inputMessageController.hiddenKeyboard();
                 },
-                child: DoctorMessageListWidget(
+                child: ChatMessageListWidget(
                   scrollController: _scrollController,
                 ),
               ),
             ),
           ),
-          DoctorInputMessageWidget(
+          ChatInputMessageWidget(
             controller: _inputMessageController,
           ),
         ],

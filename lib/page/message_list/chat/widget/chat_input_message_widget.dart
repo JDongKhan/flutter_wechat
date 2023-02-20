@@ -10,12 +10,12 @@ import '../controller/chat_controller.dart';
 
 /// @author jd
 
-enum DoctorInputMessageStatus {
+enum ChatInputMessageStatus {
   text,
   voice,
 }
 
-class DoctorInputMessageController extends ChangeNotifier {
+class ChatInputMessageController extends ChangeNotifier {
   bool _hiddenKeyboard = false;
 
   void hiddenKeyboard() {
@@ -24,23 +24,23 @@ class DoctorInputMessageController extends ChangeNotifier {
   }
 }
 
-class DoctorInputMessageWidget extends StatefulWidget {
-  const DoctorInputMessageWidget({required this.controller, Key? key})
+class ChatInputMessageWidget extends StatefulWidget {
+  const ChatInputMessageWidget({required this.controller, Key? key})
       : super(key: key);
-  final DoctorInputMessageController controller;
+  final ChatInputMessageController controller;
 
   @override
-  State createState() => _DoctorInputMessageWidgetState();
+  State createState() => _ChatInputMessageWidgetState();
 }
 
-class _DoctorInputMessageWidgetState extends State<DoctorInputMessageWidget>
+class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
     with SingleTickerProviderStateMixin {
   final FocusNode _focusNode = FocusNode();
   late Animation _animation;
   late AnimationController _animationController;
   final TextEditingController _textEditingController = TextEditingController();
   final ChatController _controller = Get.find<ChatController>();
-  DoctorInputMessageStatus _status = DoctorInputMessageStatus.text;
+  ChatInputMessageStatus _status = ChatInputMessageStatus.text;
   final PageController _pageController = PageController();
   int _currentPageIndex = 0;
 
@@ -111,10 +111,10 @@ class _DoctorInputMessageWidgetState extends State<DoctorInputMessageWidget>
                     _focusNode.unfocus();
                     _animationController.reverse(from: 0);
                     setState(() {
-                      if (_status == DoctorInputMessageStatus.text) {
-                        _status = DoctorInputMessageStatus.voice;
-                      } else if (_status == DoctorInputMessageStatus.voice) {
-                        _status = DoctorInputMessageStatus.text;
+                      if (_status == ChatInputMessageStatus.text) {
+                        _status = ChatInputMessageStatus.voice;
+                      } else if (_status == ChatInputMessageStatus.voice) {
+                        _status = ChatInputMessageStatus.text;
                       }
                     });
                   },
@@ -125,7 +125,7 @@ class _DoctorInputMessageWidgetState extends State<DoctorInputMessageWidget>
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 10),
-                    child: _status == DoctorInputMessageStatus.voice
+                    child: _status == ChatInputMessageStatus.voice
                         ? _voiceWidget()
                         : _input(),
                   ),
@@ -139,9 +139,9 @@ class _DoctorInputMessageWidgetState extends State<DoctorInputMessageWidget>
                     // FocusScope.of(context).requestFocus(FocusNode());
                     _focusNode.unfocus();
                     _animationController.forward();
-                    if (_status == DoctorInputMessageStatus.voice) {
+                    if (_status == ChatInputMessageStatus.voice) {
                       setState(() {
-                        _status = DoctorInputMessageStatus.text;
+                        _status = ChatInputMessageStatus.text;
                       });
                     }
                   },
@@ -152,9 +152,9 @@ class _DoctorInputMessageWidgetState extends State<DoctorInputMessageWidget>
                     // FocusScope.of(context).requestFocus(FocusNode());
                     _focusNode.unfocus();
                     _animationController.forward();
-                    if (_status == DoctorInputMessageStatus.voice) {
+                    if (_status == ChatInputMessageStatus.voice) {
                       setState(() {
-                        _status = DoctorInputMessageStatus.text;
+                        _status = ChatInputMessageStatus.text;
                       });
                     }
                   },

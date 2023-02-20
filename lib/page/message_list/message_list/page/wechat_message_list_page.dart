@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import '../../../../widgets/direction_button.dart';
 import '../../../../widgets/pop/pop_widget.dart';
 import '../../../wechat_main_page.dart';
-import '../../chat/page/doctor_chat_page.dart';
+import '../../chat/page/chat_page.dart';
 import '../../message_detail/page/wechat_message_detail_page.dart';
 import '../vm/custom_bouncing_scroll_physics.dart';
 import '../vm/wechat_message_list_view_model.dart';
@@ -335,8 +335,8 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
   ///行点击事件
   void _clickAtIndex(BuildContext context, Map map) {
     Navigator.of(context).push(
-      CupertinoPageRoute<DoctorChatPage>(
-        builder: (BuildContext context) => DoctorChatPage(),
+      CupertinoPageRoute<ChatPage>(
+        builder: (BuildContext context) => ChatPage(),
       ),
     );
   }
