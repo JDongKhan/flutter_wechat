@@ -68,7 +68,11 @@
   {
     "msg_name" : "南京本地生活群",
     "msg_content" : "有没有一起去游泳的，裸游的那种。",
-    "icon" : "userHead",
+    "icon" : [
+      "userHead",
+      "user_head_9",
+      "user_head_7"
+    ],
     "msg_count" : "0"
   }
 ]

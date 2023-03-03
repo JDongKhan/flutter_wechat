@@ -1,18 +1,22 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_wechat/utils/asset_bundle_utils.dart';
+import 'package:flutter_wechat/widgets/search_bar.dart';
 import 'package:get/get.dart';
+import 'package:nine_grid_view/nine_grid_view.dart';
 
+import '../../../../utils/logger_util.dart';
+import '../../../../widgets/common_search.dart';
 import '../../../../widgets/direction_button.dart';
 import '../../../../widgets/pop/pop_widget.dart';
+import '../../../scan/scan_page.dart';
 import '../../../wechat_main_page.dart';
 import '../../chat/page/chat_page.dart';
-import '../../message_detail/page/wechat_message_detail_page.dart';
 import '../vm/custom_bouncing_scroll_physics.dart';
 import '../vm/wechat_message_list_view_model.dart';
+import '../widget/recommend_tags_widget.dart';
 import '../widget/wechat_draggable_scrollable_sheet.dart';
 import '../widget/wechat_message_list_bottom_menu.dart';
 
@@ -128,14 +132,27 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
         ],
       ),
       body: SlidableAutoCloseBehavior(
-        child: ListView.builder(
-          physics: const CustomBouncingScrollPhysics(),
+        child: CustomScrollView(
           controller: scrollController,
-          itemBuilder: (BuildContext context, int index) {
-            Map item = model.data[index];
-            return _buildListItem(model, item);
-          },
-          itemCount: model.data.length,
+          physics: const CustomBouncingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+              child: SearchBar(
+                onTap: () {
+                  _showSearch(context);
+                },
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  Map item = model.data[index];
+                  return _buildListItem(model, item);
+                },
+                childCount: model.data.length,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -150,6 +167,27 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
       _showBackMenu = hidden;
       WechatMainPage.of(context)?.hiddenBottomNavigationBar(hidden);
     }
+  }
+
+  void _showSearch(BuildContext context) {
+    showCustomSearch(
+      context: context,
+      builder: (context, constraints, query) {
+        logger.i('开始查询数据:$query');
+        if (query.isBlank!) {
+          return RecommendTagsWidget(
+            onClick: (title) {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return Container();
+              }));
+            },
+          );
+        }
+        return SearchTagList(
+          query: query,
+        );
+      },
+    );
   }
 
   ///cell布局
@@ -210,7 +248,7 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
           _clickAtIndex(context, item);
         },
         title: Text(item['msg_name']),
-        leading: Badge(
+        leading: badge.Badge(
           toAnimate: false,
           showBadge: int.parse(item['msg_count']) > 0,
           badgeContent: Text(
@@ -219,9 +257,7 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            child: Image.asset(
-              AssetBundleUtils.getImgPath(item['icon']),
-            ),
+            child: _buildHeadIcon(item),
           ),
         ),
         subtitle: Text(
@@ -229,6 +265,37 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
         ),
       ),
     );
+  }
+
+  Widget _buildHeadIcon(Map item) {
+    dynamic icon = item['icon'];
+    if (icon is String) {
+      return Image.asset(
+        AssetBundleUtils.getImgPath(icon),
+      );
+    } else if (icon is List) {
+      List list = icon;
+      return NineGridView(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(4),
+        ),
+        padding: const EdgeInsets.all(5),
+        space: 2,
+        type:
+            NineGridType.qqGp, //NineGridType.weChatGp, NineGridType.dingTalkGp
+        itemCount: list.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Image.asset(
+            AssetBundleUtils.getImgPath(list[index]),
+          );
+        },
+      );
+    }
+
+    return Container();
   }
 
   ///cell布局
@@ -287,7 +354,7 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
         padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
         child: Row(
           children: [
-            Badge(
+            badge.Badge(
               toAnimate: false,
               showBadge: int.parse(item['msg_count']) > 0,
               badgeContent: Text(
@@ -388,15 +455,22 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
             ),
           ),
         ),
-        const DirectionButton(
+        DirectionButton(
           imageDirection: AxisDirection.left,
           padding: EdgeInsets.all(0),
           middlePadding: 10,
-          icon: Icon(
+          action: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const ScanPage(),
+              ),
+            );
+          },
+          icon: const Icon(
             Icons.scanner_rounded,
             color: Colors.white,
           ),
-          text: Text(
+          text: const Text(
             '扫一扫',
             style: TextStyle(
               color: Colors.white,

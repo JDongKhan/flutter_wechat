@@ -77,7 +77,8 @@ dependencies:
   flutter_slidable: ^2.0.0
   #bugly
   flutter_bugly: ^0.3.0
-
+  #九宫格
+  nine_grid_view: ^2.0.0
   scrollview_observer: ^1.9.2
   #和scrollview_observer组合使用
   custom_refresh_indicator: ^2.0.1
@@ -87,6 +88,8 @@ dependencies:
   wechat_assets_picker: ^8.3.2
   # 图片预览
   photo_view: ^0.14.0
+  #扫一扫 only iOS and Android
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
