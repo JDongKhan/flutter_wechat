@@ -3,12 +3,11 @@ import 'dart:convert';
 import 'package:azlistview/azlistview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_wechat/utils/asset_bundle_utils.dart';
 import 'package:lpinyin/lpinyin.dart';
 
 import '../../utils/screen_utils.dart';
-import '../message_list/message_detail/page/wechat_message_detail_page.dart';
+import '../chat/message_detail/page/wechat_message_detail_page.dart';
 
 /// @author jd
 class WechatMailListPage extends StatefulWidget {
