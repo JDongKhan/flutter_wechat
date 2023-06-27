@@ -17,17 +17,18 @@ Widget wechatBuildPulltoRefreshImage(
 
   String mode = '下拉刷新';
   if (info != null && info.mode != null) {
-    switch (info.mode) {
-      case RefreshIndicatorMode.refresh:
+    PullToRefreshIndicatorMode modeEnum = info.mode!;
+    switch (modeEnum) {
+      case PullToRefreshIndicatorMode.refresh:
         mode = '刷新中...';
         break;
-      case RefreshIndicatorMode.done:
+      case PullToRefreshIndicatorMode.done:
         mode = '刷新成功';
         break;
-      case RefreshIndicatorMode.canceled:
+      case PullToRefreshIndicatorMode.canceled:
         mode = '刷新取消';
         break;
-      case RefreshIndicatorMode.error:
+      case PullToRefreshIndicatorMode.error:
         mode = '刷新错误';
         break;
     }

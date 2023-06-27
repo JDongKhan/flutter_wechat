@@ -79,7 +79,7 @@ class PrinterLogManager extends PrettyPrinter {
 
     // var errorStr = event.error?.toString();
 
-    String timeStr = getTime();
+    String timeStr = getTime(DateTime.now());
     return [
       '$timeStr(${event.level})\n${stackTraceStr!}\n【$messageStr】\n',
     ];

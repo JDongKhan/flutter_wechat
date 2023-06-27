@@ -249,7 +249,6 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
         },
         title: Text(item['msg_name']),
         leading: badge.Badge(
-          toAnimate: false,
           showBadge: int.parse(item['msg_count']) > 0,
           badgeContent: Text(
             item['msg_count'],
@@ -355,7 +354,6 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
         child: Row(
           children: [
             badge.Badge(
-              toAnimate: false,
               showBadge: int.parse(item['msg_count']) > 0,
               badgeContent: Text(
                 item['msg_count'],

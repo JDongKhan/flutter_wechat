@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 
+///@author JD
 ///请求重试
 class RetryOnConnectionChangeInterceptor extends Interceptor {
   RetryOnConnectionChangeInterceptor({
@@ -13,18 +14,22 @@ class RetryOnConnectionChangeInterceptor extends Interceptor {
   final DioConnectivityRequestRetrier requestRetrier;
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
+  Future onError(
+    DioError err,
+    ErrorInterceptorHandler handler,
+  ) async {
     if (_shouldRetry(err)) {
       try {
-        requestRetrier.scheduleRequestRetry(err.requestOptions);
-        return;
-      } catch (e) {}
+        return requestRetrier.scheduleRequestRetry(err.requestOptions);
+      } catch (e) {
+        return e;
+      }
     }
-    handler.next(err);
+    return err;
   }
 
   bool _shouldRetry(DioError err) {
-    return err.type == DioErrorType.other &&
+    return err.type == DioErrorType.unknown &&
         err.error != null &&
         err.error is SocketException;
   }
@@ -56,11 +61,11 @@ class DioConnectivityRequestRetrier {
               onSendProgress: requestOptions.onSendProgress,
               queryParameters: requestOptions.queryParameters,
               options: Options(
-                method: requestOptions.method,
                 sendTimeout: requestOptions.sendTimeout,
                 receiveTimeout: requestOptions.receiveTimeout,
-                extra: requestOptions.extra,
+                method: requestOptions.method,
                 headers: requestOptions.headers,
+                extra: requestOptions.extra,
                 responseType: requestOptions.responseType,
                 contentType: requestOptions.contentType,
                 validateStatus: requestOptions.validateStatus,

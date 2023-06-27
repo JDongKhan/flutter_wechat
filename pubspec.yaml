@@ -33,59 +33,59 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  url_launcher: ^6.1.5
+  cupertino_icons: ^1.0.5
+  url_launcher: ^6.1.11
   lpinyin: any
   azlistview: any
 
   # 状态管理
   #  provider: ^6.0.3
   get: 4.6.5
-  permission_handler: ^10.0.0
-  package_info_plus: ^1.4.3+1
+  permission_handler: ^10.3.0
+  package_info_plus: ^4.0.2
 
   #网络
-  dio: ^4.0.6
-  dio_http_cache: ^0.3.0
-  dio_cookie_manager: ^2.0.0
-  cookie_jar: ^3.0.1
+  dio: ^5.2.1+1
+#  dio_http_cache: ^0.3.0
+  dio_cookie_manager: ^3.1.0
+  cookie_jar: ^4.0.5
   #网络状态监听
-  connectivity: ^3.0.6
+  connectivity_plus: ^4.0.1
   #持久化数据库
-  shared_preferences: ^2.0.15
-  localstorage: ^4.0.0+1
+  shared_preferences: ^2.1.2
+  localstorage: ^4.0.1+4
   share: ^2.0.4
-  logger: ^1.1.0
+  logger: ^1.4.0
 
-  flutter_screenutil: ^5.5.4
+  flutter_screenutil: ^5.8.4
   #toask
-  fluttertoast: ^8.0.8
+  fluttertoast: ^8.2.2
   #网络图片库
-  cached_network_image: ^3.2.1
+  cached_network_image: ^3.2.3
   #下拉刷新
-  easy_refresh: ^3.0.4+2
-  pull_to_refresh_notification: ^2.3.0
+  easy_refresh: ^3.3.2+1
+  pull_to_refresh_notification: ^3.0.1
   #闪光
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
   auto_size_text: ^3.0.0
   waterfall_flow: ^3.0.2
-  webview_flutter: ^3.0.4
+  webview_flutter: ^4.2.2
   flutter_swiper_view: ^1.1.8
   #小红点
-  badges: ^2.0.3
+  badges: ^3.1.1
   #滑动删除
-  flutter_slidable: ^2.0.0
+  flutter_slidable: ^3.0.0
   #bugly
-  flutter_bugly: ^0.3.0
+  flutter_bugly: ^0.4.4
   #九宫格
   nine_grid_view: ^2.0.0
-  scrollview_observer: ^1.9.2
+  scrollview_observer: ^1.14.0
   #和scrollview_observer组合使用
-  custom_refresh_indicator: ^2.0.1
+  custom_refresh_indicator: ^2.2.1
   #websocket
-  web_socket_channel: ^2.3.0
+  web_socket_channel: ^2.4.0
   #聊天图片
-  wechat_assets_picker: ^8.3.2
+  wechat_assets_picker: ^8.5.0
   # 图片预览
   photo_view: ^0.14.0
   #扫一扫 only iOS and Android
@@ -96,7 +96,7 @@ dependencies:
   #此插件会告知操作系统您的音频应用程序的性质（例如游戏、媒体播放器、助手等）以及您的应用程序将如何处理和启动音频中断（例如电话中断）
   audio_session: ^0.1.16
   #uuid
-  uuid: ^3.0.6
+  uuid: ^3.0.7
 
 
 dev_dependencies:
