@@ -96,10 +96,21 @@ class ChatController extends GetxController {
   }
 
   //发送消息
-  void sendMessage({String? message, File? file}) {
+  void sendMessage({required String message}) {
     Message m = Message(
       time: DateUtil.formatDate(DateTime.now(), format: "yyyy-MM-dd HH:mm:ss"),
       message: message,
+      isMe: true,
+    );
+    data.insert(0, m);
+    update();
+    jumpToBottom();
+  }
+
+  //发送消息
+  void sendFile({required File file}) {
+    Message m = Message(
+      time: DateUtil.formatDate(DateTime.now(), format: "yyyy-MM-dd HH:mm:ss"),
       file: file,
       isMe: true,
     );

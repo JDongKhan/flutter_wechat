@@ -5,9 +5,10 @@ import 'package:path_provider/path_provider.dart';
 
 /// @author jd
 class PathUtils {
-  static Future<Directory> getAppDocumentsDirectory() async {
+  //用户不可见
+  static Future<Directory?> getAppDocumentsDirectory() async {
     if (kIsWeb) {
-      return Directory(' no support get directory in web');
+      return null;
     }
     if (Platform.isIOS || Platform.isAndroid) {
       return getApplicationDocumentsDirectory();
@@ -15,9 +16,10 @@ class PathUtils {
     return Directory('no support  get directory ');
   }
 
-  static Future<Directory> getAppTemporaryDirectory() async {
+  //用户不可见
+  static Future<Directory?> getAppTemporaryDirectory() async {
     if (kIsWeb) {
-      return Directory('no support get directory in web');
+      return null;
     }
     if (Platform.isIOS || Platform.isAndroid) {
       return getTemporaryDirectory();
@@ -25,9 +27,10 @@ class PathUtils {
     return Directory('no support  get directory');
   }
 
+  //用户可见
   static Future<Directory?> getAppCacheDirectory() async {
     if (kIsWeb) {
-      return Directory('no support get directory in web');
+      return null;
     }
     if (Platform.isAndroid) {
       return getExternalStorageDirectory();

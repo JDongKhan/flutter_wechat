@@ -4,28 +4,15 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:logger/logger.dart';
 
 class AudioPlayer {
-  //播放器权限
-  bool _voicePlayerIsInitialized = false;
-
   //语音播放工具
   final FlutterSoundPlayer _voicePlayer =
       FlutterSoundPlayer(logLevel: Level.error);
 
-  void init() {
-    //初始化播放器
-    _voicePlayer.openPlayer().then((value) {
-      _voicePlayerIsInitialized = true;
-    });
-  }
-
-  void dispose() {
-    //关闭语音播放
-    _voicePlayer.closePlayer();
-  }
-
   ///开始播放录音
-  void play(String messageVoiceFilePath, {Function? playFinished}) {
-    assert(_voicePlayerIsInitialized && _voicePlayer.isStopped);
+  void play(String messageVoiceFilePath, {Function? playFinished}) async {
+    //初始化播放器
+    await _voicePlayer.openPlayer();
+    assert(_voicePlayer.isStopped);
     _voicePlayer.startPlayer(
       fromURI: messageVoiceFilePath,
       //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
@@ -39,6 +26,9 @@ class AudioPlayer {
 
   ///停止播放声音
   Future<void> stop() {
-    return _voicePlayer.stopPlayer();
+    return _voicePlayer.stopPlayer().then((value) {
+      //关闭语音播放
+      _voicePlayer.closePlayer();
+    });
   }
 }

@@ -17,4 +17,11 @@ class Message {
   final String? name;
   final String? image;
   final File? file;
+
+  bool isVideo() {
+    if (file == null) {
+      return false;
+    }
+    return file!.path.contains("mp4");
+  }
 }

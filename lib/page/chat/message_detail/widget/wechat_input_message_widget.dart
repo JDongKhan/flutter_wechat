@@ -40,6 +40,8 @@ class _WechatInputMessageWidgetState extends State<WechatInputMessageWidget>
   final PageController _pageController = PageController();
   int _currentPageIndex = 0;
 
+  bool _isRecording = false;
+
   final List<String> _list = [
     '照片',
     '拍摄',
@@ -223,14 +225,32 @@ class _WechatInputMessageWidgetState extends State<WechatInputMessageWidget>
   }
 
   Widget _voiceWidget() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(5),
-      ),
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
-      child: const Center(
-        child: Text('按住 说话'),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        setState(() {
+          _isRecording = true;
+        });
+      },
+      onLongPressStart: (LongPressStartDetails details) {
+        setState(() {
+          _isRecording = true;
+        });
+      },
+      onLongPressEnd: (LongPressEndDetails details) {
+        setState(() {
+          _isRecording = false;
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(5),
+        ),
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        child: Center(
+          child: _isRecording ? const Text('松手停止') : const Text('按住 说话'),
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_wechat/extension/extension_function.dart';
 import 'package:flutter_wechat/page/chat/message_detail/widget/bubble_widget.dart';
+import 'package:flutter_wechat/page/chat/message_list/vm/audio_payer.dart';
 import 'package:flutter_wechat/page/picture_overview/picture_overview.dart';
 import 'package:flutter_wechat/utils/asset_bundle_utils.dart';
 import 'package:get/get.dart';
@@ -201,6 +202,15 @@ class _ChatMessageListWidgetState extends State<ChatMessageListWidget> {
       );
     }
     if (m.file != null) {
+      if (m.isVideo()) {
+        return GestureDetector(
+          onTap: () {
+            AudioPlayer audioPlayer = AudioPlayer();
+            audioPlayer.play(m.file!.path);
+          },
+          child: const Text('语音..'),
+        );
+      }
       return GestureDetector(
         onTap: () {
           _preview(ImagePreviewModel.file(m.file));

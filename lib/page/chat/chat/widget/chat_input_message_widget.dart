@@ -6,6 +6,8 @@ import 'package:flutter_wechat/widgets/direction_button.dart';
 import 'package:get/get.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
+import '../../message_list/vm/audio_payer.dart';
+import '../../message_list/vm/audio_record.dart';
 import '../controller/chat_controller.dart';
 
 /// @author jd
@@ -43,7 +45,7 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
   ChatInputMessageStatus _status = ChatInputMessageStatus.text;
   final PageController _pageController = PageController();
   int _currentPageIndex = 0;
-
+  bool _isRecording = false;
   final List<String> _list = [
     '照片',
     '拍摄',
@@ -57,6 +59,8 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
     '文件',
     '卡券',
   ];
+
+  AudioRecord? audioRecord;
 
   @override
   void initState() {
@@ -226,14 +230,33 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
   }
 
   Widget _voiceWidget() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(5),
-      ),
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
-      child: const Center(
-        child: Text('按住 说话'),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onLongPressStart: (LongPressStartDetails details) {
+        audioRecord = AudioRecord();
+        audioRecord?.start();
+        setState(() {
+          _isRecording = true;
+        });
+      },
+      onLongPressEnd: (LongPressEndDetails details) {
+        audioRecord?.stop().then((value) {
+          File file = File.fromUri(Uri.parse(value!));
+          _controller.sendFile(file: file);
+        });
+        setState(() {
+          _isRecording = false;
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(5),
+        ),
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        child: Center(
+          child: _isRecording ? const Text('松手停止') : const Text('按住 说话'),
+        ),
       ),
     );
   }
@@ -336,7 +359,7 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
       ),
     );
     File? file = await result?.first.file;
-    _controller.sendMessage(file: file);
+    _controller.sendFile(file: file!);
   }
 
   void _pickCamera() async {}
