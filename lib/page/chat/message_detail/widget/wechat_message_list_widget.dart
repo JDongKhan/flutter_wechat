@@ -6,13 +6,14 @@ import '../model/wechat_message.dart';
 import 'bubble_widget.dart';
 
 /// @author jd
-
+@Deprecated("请使用ChatPage")
 class WechatMessageListWidget extends StatefulWidget {
   @override
   _WechatMessageListWidgetState createState() =>
       _WechatMessageListWidgetState();
 }
 
+@Deprecated("请使用ChatPage")
 class _WechatMessageListWidgetState extends State<WechatMessageListWidget> {
   List message = [];
   final ScrollController _scrollController = ScrollController();

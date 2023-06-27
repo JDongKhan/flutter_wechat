@@ -11,6 +11,7 @@ const double _MinWidth = 50.0; //内容最小宽度
 ///方向
 enum BubbleDirection { left, right }
 
+@Deprecated("请使用ChatPage")
 class BubbleWidget extends StatelessWidget {
   const BubbleWidget({
     Key? key,

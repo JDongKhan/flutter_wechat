@@ -6,8 +6,7 @@ import 'package:flutter_wechat/widgets/direction_button.dart';
 import 'package:get/get.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
-import '../../message_list/vm/audio_payer.dart';
-import '../../message_list/vm/audio_record.dart';
+import '../../../../utils/audio_record.dart';
 import '../controller/chat_controller.dart';
 
 /// @author jd

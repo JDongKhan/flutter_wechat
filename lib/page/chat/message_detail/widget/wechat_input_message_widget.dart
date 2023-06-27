@@ -4,12 +4,13 @@ import 'package:flutter/widgets.dart';
 import '../../../../widgets/direction_button.dart';
 
 /// @author jd
-
+@Deprecated("请使用ChatPage")
 enum WechatInputMessageStatus {
   text,
   voice,
 }
 
+@Deprecated("请使用ChatPage")
 class WechatInputMessageController extends ChangeNotifier {
   bool _hiddenKeyboard = false;
 
@@ -19,6 +20,7 @@ class WechatInputMessageController extends ChangeNotifier {
   }
 }
 
+@Deprecated("请使用ChatPage")
 class WechatInputMessageWidget extends StatefulWidget {
   const WechatInputMessageWidget({required this.controller, Key? key})
       : super(key: key);

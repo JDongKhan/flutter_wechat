@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_wechat/extension/extension_function.dart';
 import 'package:flutter_wechat/page/chat/message_detail/widget/bubble_widget.dart';
-import 'package:flutter_wechat/page/chat/message_list/vm/audio_payer.dart';
+import 'package:flutter_wechat/utils/audio_payer.dart';
 import 'package:flutter_wechat/page/picture_overview/picture_overview.dart';
 import 'package:flutter_wechat/utils/asset_bundle_utils.dart';
 import 'package:get/get.dart';
@@ -23,6 +23,7 @@ class ChatMessageListWidget extends StatefulWidget {
 
 class _ChatMessageListWidgetState extends State<ChatMessageListWidget> {
   final ChatController _controller = Get.find<ChatController>();
+  AudioPlayer? audioPlayer;
   @override
   void initState() {
     super.initState();
@@ -30,6 +31,7 @@ class _ChatMessageListWidgetState extends State<ChatMessageListWidget> {
 
   @override
   void dispose() {
+    audioPlayer?.stop();
     super.dispose();
   }
 
@@ -205,8 +207,8 @@ class _ChatMessageListWidgetState extends State<ChatMessageListWidget> {
       if (m.isVideo()) {
         return GestureDetector(
           onTap: () {
-            AudioPlayer audioPlayer = AudioPlayer();
-            audioPlayer.play(m.file!.path);
+            audioPlayer = AudioPlayer();
+            audioPlayer?.play(m.file!.path);
           },
           child: const Text('语音..'),
         );
