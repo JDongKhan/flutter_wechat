@@ -50,6 +50,8 @@
     <true/>
     <key>NSCameraUsageDescription</key>
     <string>This app needs camera access to scan QR codes</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>访问麦克风</string>
 
 </dict>
 </plist>

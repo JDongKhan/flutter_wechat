@@ -48,7 +48,8 @@ class AppInfo {
   //隐藏显示状态栏
   static void toggleFullScreen(bool fullscreen) {
     fullscreen
-        ? SystemChrome.setEnabledSystemUIOverlays([])
-        : SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+        ? SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge)
+        : SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
+            overlays: SystemUiOverlay.values);
   }
 }

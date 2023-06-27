@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_wechat/utils/asset_bundle_utils.dart';
-import 'package:flutter_wechat/widgets/search_bar.dart';
+import 'package:flutter_wechat/widgets/search_bar.dart' as SM;
 import 'package:get/get.dart';
 import 'package:nine_grid_view/nine_grid_view.dart';
 
@@ -137,7 +137,7 @@ class _WechatMessageListPageState extends State<WechatMessageListPage>
           physics: const CustomBouncingScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(
-              child: SearchBar(
+              child: SM.SearchBar(
                 onTap: () {
                   _showSearch(context);
                 },

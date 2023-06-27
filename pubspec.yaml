@@ -91,6 +91,14 @@ dependencies:
   #扫一扫 only iOS and Android
   qr_code_scanner: ^1.0.1
 
+  #语音录制、播放插件
+  flutter_sound: ^9.2.13
+  #此插件会告知操作系统您的音频应用程序的性质（例如游戏、媒体播放器、助手等）以及您的应用程序将如何处理和启动音频中断（例如电话中断）
+  audio_session: ^0.1.16
+  #uuid
+  uuid: ^3.0.6
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
