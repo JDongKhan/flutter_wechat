@@ -237,6 +237,10 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
         setState(() {
           _isRecording = true;
         });
+        _showRecordLoading(context);
+      },
+      onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) {
+        _checkHit(details.globalPosition);
       },
       onLongPressEnd: (LongPressEndDetails details) {
         audioRecord?.stop().then((value) {
@@ -246,6 +250,7 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
         setState(() {
           _isRecording = false;
         });
+        _dismissRecordLoading();
       },
       child: Container(
         decoration: BoxDecoration(
@@ -362,4 +367,58 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
   }
 
   void _pickCamera() async {}
+
+  OverlayEntry? _overlayEntry;
+  bool _hitLoading = false;
+  final GlobalKey _centerLoadingKey = GlobalKey();
+  StateSetter? _setState;
+  void _showRecordLoading(BuildContext context) {
+    _overlayEntry = OverlayEntry(builder: (c) {
+      return Material(
+        color: Colors.blue.withOpacity(0.2),
+        child: Center(
+          child: Container(
+            color: Colors.black54,
+            width: 100,
+            height: 100,
+            alignment: Alignment.center,
+            key: _centerLoadingKey,
+            child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+              _setState = setState;
+              return Text(
+                _hitLoading ? '松手停止录制' : "录制中",
+                style: const TextStyle(color: Colors.white),
+              );
+            }),
+          ),
+        ),
+      );
+    });
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _checkHit(Offset position) {
+    RenderBox? renderBox =
+        _centerLoadingKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) {
+      return;
+    }
+    Rect rect = renderBox.localToGlobal(Offset.zero) & renderBox.size;
+    bool hit = false;
+    if (rect.contains(position)) {
+      print("命中了");
+      hit = true;
+    } else {
+      hit = false;
+    }
+    if (_hitLoading != hit) {
+      _setState?.call(() {});
+    }
+    _hitLoading = hit;
+  }
+
+  void _dismissRecordLoading() {
+    _overlayEntry?.remove();
+  }
 }
