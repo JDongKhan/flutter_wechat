@@ -83,11 +83,22 @@ class AudioRecord {
     } else {
       _path = fileName;
     }
+    print("开始录制:$_path");
     _voiceRecorder.startRecorder(
       codec: _codec,
       toFile: _path!,
       audioSource: _theSource,
     );
+  }
+
+  Future<void> cancel() async {
+    if (_path == null) {
+      return;
+    }
+    print("取消录制");
+    await _voiceRecorder.stopRecorder();
+    await _voiceRecorder.deleteRecord(fileName: _path!);
+    await _voiceRecorder.closeRecorder();
   }
 
   ///停止录音 并将消息存储

@@ -243,6 +243,11 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
         _checkHit(details.globalPosition);
       },
       onLongPressEnd: (LongPressEndDetails details) {
+        _dismissRecordLoading();
+        if (_hitLoading) {
+          audioRecord?.cancel();
+          return;
+        }
         audioRecord?.stop().then((value) {
           File file = File.fromUri(Uri.parse(value!));
           _controller.sendFile(file: file);
@@ -250,7 +255,6 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
         setState(() {
           _isRecording = false;
         });
-        _dismissRecordLoading();
       },
       child: Container(
         decoration: BoxDecoration(
@@ -407,7 +411,6 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
     Rect rect = renderBox.localToGlobal(Offset.zero) & renderBox.size;
     bool hit = false;
     if (rect.contains(position)) {
-      print("命中了");
       hit = true;
     } else {
       hit = false;
