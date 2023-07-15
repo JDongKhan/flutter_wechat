@@ -37,6 +37,7 @@ class AudioRecord {
         return false;
       }
     }
+    await _voiceRecorder.stopRecorder();
     await _voiceRecorder.openRecorder();
     if (!await _voiceRecorder.isEncoderSupported(_codec) && kIsWeb) {
       _codec = Codec.opusWebM;
@@ -106,6 +107,7 @@ class AudioRecord {
     if (_path == null) {
       return null;
     }
+    print("停止录制");
     return _voiceRecorder.stopRecorder().then((value) {
       String path = _path!;
       print('录制成功$path');

@@ -44,7 +44,6 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
   ChatInputMessageStatus _status = ChatInputMessageStatus.text;
   final PageController _pageController = PageController();
   int _currentPageIndex = 0;
-  bool _isRecording = false;
   final List<String> _list = [
     '照片',
     '拍摄',
@@ -59,6 +58,7 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
     '卡券',
   ];
 
+  bool _isRecording = false;
   AudioRecord? audioRecord;
 
   @override
@@ -232,6 +232,7 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onLongPressStart: (LongPressStartDetails details) {
+        print("onLongPressStart");
         audioRecord = AudioRecord();
         audioRecord?.start();
         setState(() {
@@ -242,14 +243,21 @@ class _ChatInputMessageWidgetState extends State<ChatInputMessageWidget>
       onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) {
         _checkHit(details.globalPosition);
       },
+      onLongPressCancel: () {
+        print("onLongPressCancel");
+      },
       onLongPressEnd: (LongPressEndDetails details) {
+        print("onLongPressEnd");
         _dismissRecordLoading();
         if (_hitLoading) {
           audioRecord?.cancel();
           return;
         }
         audioRecord?.stop().then((value) {
-          File file = File.fromUri(Uri.parse(value!));
+          if (value == null) {
+            return;
+          }
+          File file = File.fromUri(Uri.parse(value));
           _controller.sendFile(file: file);
         });
         setState(() {
